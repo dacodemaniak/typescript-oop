@@ -1,6 +1,7 @@
 import { User } from "./models/user";
 import { Client } from "./models/client";
 import { Administrateur } from "./models/administrateur";
+import { ClientFactory } from "./helpers/client-factory";
 
 /**
  * @name App
@@ -20,6 +21,9 @@ export class App {
         toi.setName('Mélanie');
         toi.setPhone('8978451230');
 
+
+        const factory: ClientFactory = new ClientFactory();
+        const lui: Client = factory.full('Bond', '0707070707', 'james@bond.co.uk');
 
         const admin: Administrateur = Administrateur.getInstanceOf();
         admin.setName('The boss');
