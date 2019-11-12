@@ -1,4 +1,6 @@
 import { User } from './../../models/user';
+import { Administrateur } from './../../models/administrateur';
+import { Client } from './../../models/client';
 
 /**
  * @name UserStrategyInterface

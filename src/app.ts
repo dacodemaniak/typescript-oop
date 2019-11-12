@@ -2,6 +2,9 @@ import { User } from "./models/user";
 import { Client } from "./models/client";
 import { Administrateur } from "./models/administrateur";
 import { ClientFactory } from "./helpers/client-factory";
+import { UserFactory } from "./helpers/user-factory";
+import { AdminStrategy } from "./helpers/strategies/admin-strategy";
+import { ClientStrategy } from "./helpers/strategies/client-strategy";
 
 /**
  * @name App
@@ -10,35 +13,35 @@ import { ClientFactory } from "./helpers/client-factory";
  */
 export class App {
     public constructor() {
-        const moi: Client = new Client();
-        moi
-            .setName('Aubert')
-            .setPhone('0022336655')
-            .setEmail('bidule@truc.chose');
+        const factory: UserFactory = new UserFactory();
 
-        const toi: Client = new Client();
-        toi.setEmail('toi@couverture.com');
-        toi.setName('Mélanie');
-        toi.setPhone('8978451230');
+        // Create a client
+        const client: Client = factory.create(
+            'Bond',
+            '007777777',
+            'james@bond.co.uk'
+        );
 
+        // To create an admin
+        factory.setStrategy(new AdminStrategy());
+        const admin: Administrateur = <Administrateur> factory.create(
+            'Super Admin',
+            '911911911',
+            'admin@help.me',
+            '10, Baker Street'
+        );
 
-        const factory: ClientFactory = new ClientFactory();
-        const lui: Client = factory.full('Bond', '0707070707', 'james@bond.co.uk');
+        // Yet another user, don't forget to switch strategy back
+        factory.setStrategy(new ClientStrategy());
+        const bonClient: Client = factory.create(
+            'Picsou',
+            '666666666',
+            'dollar@donaldville.com'
+        );
 
-        const admin: Administrateur = Administrateur.getInstanceOf();
-        admin.setName('The boss');
-        admin.setEmail('theone@master.com');
-        admin.setPhone('7777777777');
-        admin.setAddress('10 Gottham City');
-        
-        console.log('Admin vit à : ' + admin.getAddress());
-
-        const autreAdmin: Administrateur = Administrateur.getInstanceOf();
-        console.log('Autre admin vit aussi à : ' + admin.getAddress());
-        
-        // Output names of the users
-        console.log('Moi : ' + moi.getName() + ' Toi : ' + toi.getName());
-        
+        console.log('client ' + client.getName());
+        console.log('admin : ' + admin.getName() + ' Adresse : ' + admin.getAddress());
+        console.log('bonClient ' + bonClient.getName());
     }
 }
 
