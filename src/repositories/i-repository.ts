@@ -10,5 +10,5 @@ export interface Repository<T> {
     get(id: number): T;
     delete(id: number): Repository<T>;
     update(t: T): Repository<T>;
-    getRepository(): Map<number, T>;
+    getRepository(): Map<number, T> | Array<T>;
 }

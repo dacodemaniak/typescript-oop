@@ -5,6 +5,7 @@ import { ClientFactory } from "./helpers/client-factory";
 import { UserFactory } from "./helpers/user-factory";
 import { AdminStrategy } from "./helpers/strategies/admin-strategy";
 import { ClientStrategy } from "./helpers/strategies/client-strategy";
+import { ClientRepository } from "./repositories/client-repository";
 
 /**
  * @name App
@@ -15,12 +16,15 @@ export class App {
     public constructor() {
         const factory: UserFactory = new UserFactory();
 
-        // Create a client
-        const client: Client = factory.create(
+        // Instancie un repository pour les Clients
+        const repository: ClientRepository = new ClientRepository();
+
+        // Add a client to the repository
+        repository.add(<Client> factory.create(
             'Bond',
             '007777777',
             'james@bond.co.uk'
-        );
+        ));
 
         // To create an admin
         factory.setStrategy(new AdminStrategy());
@@ -33,15 +37,20 @@ export class App {
 
         // Yet another user, don't forget to switch strategy back
         factory.setStrategy(new ClientStrategy());
-        const bonClient: Client = factory.create(
+        repository.add(<Client> factory.create(
             'Picsou',
             '666666666',
             'dollar@donaldville.com'
-        );
+        ));
 
-        console.log('client ' + client.getName());
         console.log('admin : ' + admin.getName() + ' Adresse : ' + admin.getAddress());
-        console.log('bonClient ' + bonClient.getName());
+
+        // Loop over Repository
+        repository.getRepository().forEach((client: Client, id: number) => {
+            console.log(
+                `Nom : ${client.getName()} [${client.getId()}]\n`
+            );
+        })
     }
 }
 

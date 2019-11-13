@@ -1,5 +1,6 @@
 import { Client } from './../models/client';
 import { ClientFactoryInterface } from './interfaces/client-factory-interface';
+import { IdFactory } from './id-factory';
 /**
  * @name ClientFactory
  * @author Aélion
@@ -8,7 +9,7 @@ import { ClientFactoryInterface } from './interfaces/client-factory-interface';
  */
 export class ClientFactory implements ClientFactoryInterface {
     public nameOnly(name: string): Client {
-        return (new Client()
+        return <Client> (new Client()
             .setName(name));
     }
 
@@ -20,10 +21,11 @@ export class ClientFactory implements ClientFactoryInterface {
         // My Logic here... verify email pattern
         // My logic here... verify phone pattern
 
-        const client: Client = new Client()
-            .setEmail(email)
-            .setName(name)
-            .setPhone(phone);
+        const client: Client = new Client();
+            client.setId(IdFactory.getId())
+            client.setEmail(email)
+            client.setName(name)
+            client.setPhone(phone);
         return client;
     }
 }

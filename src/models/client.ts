@@ -12,9 +12,12 @@ export class Client extends User {
      * @var number
      * Id of a client unique
      */
-    private id: number;
+    private id?: number;
 
-    public setId(): void {}
+    public setId(id: number): Client {
+        this.id = id;
+        return this;
+    }
 
     public getId(): number {
         return this.id;
