@@ -50,7 +50,9 @@ export class App {
             console.log(
                 `Nom : ${client.getName()} [${client.getId()}]\n`
             );
-        })
+        });
+
+        
     }
 }
 
